@@ -26,7 +26,7 @@ class AuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterf
         }
 
         if (in_array('ROLE_EDUCATOR', $roles)) {
-            return new RedirectResponse($this->urlGenerator->generate('app_educ'));
+            return new RedirectResponse($this->urlGenerator->generate('app_educator'));
         }
 
         // Default to parent dashboard for ROLE_USER

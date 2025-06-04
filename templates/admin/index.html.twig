@@ -9,9 +9,13 @@
             <h1>Welcome to the Admin Dashboard</h1>
             <p>Manage your daycare center's operations and monitor key metrics.</p>
             <div class="quick-actions">
-                <a href="{{ path('app_user_crud_index') }}" class="action-button">Manage Users</a>
+                <a href="{{ path('app_user_crud_index', {'role': 'educator'}) }}" class="action-button">
+                    <i class="fas fa-chalkboard-teacher"></i> Manage Educators
+                </a>
+                <a href="{{ path('app_user_crud_index', {'role': 'parent'}) }}" class="action-button">
+                    <i class="fas fa-users"></i> Manage Parents
+                </a>
                 <a href="#" class="action-button">View Reports</a>
-                <a href="#" class="action-button">Settings</a>
                 <a href="{{ path('app_logout') }}" class="action-button">Logout</a>
             </div>
         </div>

@@ -12,14 +12,26 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/user/crud')]
+#[Route('/admin/user/crud')]
 final class UserCrudController extends AbstractController
 {
-    #[Route(name: 'app_user_crud_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
+    #[Route('/', name: 'app_user_crud_index', methods: ['GET'])]
+    public function index(Request $request, UserRepository $userRepository): Response
     {
+        $role = $request->query->get('role');
+        $queryBuilder = $userRepository->createQueryBuilder('u');
+
+        if ($role) {
+            $queryBuilder
+                ->andWhere('u.roles LIKE :role')
+                ->setParameter('role', '%ROLE_' . strtoupper($role) . '%');
+        }
+
+        $users = $queryBuilder->getQuery()->getResult();
+
         return $this->render('user_crud/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $users,
+            'current_role' => $role
         ]);
     }
 

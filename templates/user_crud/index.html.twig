@@ -1,14 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User Management{% endblock %}
+{% block title %}{% if current_role %}{{ current_role|capitalize }} Management{% else %}User Management{% endif %}{% endblock %}
 
 {% block body %}
 <div class="crud-container">
     <div class="crud-header">
-        <h1 class="crud-title">User Management</h1>
+        <h1 class="crud-title">
+            {% if current_role %}
+                {{ current_role|capitalize }} Management
+            {% else %}
+                User Management
+            {% endif %}
+        </h1>
         <div class="crud-actions">
-            <a href="{{ path('app_user_crud_new') }}" class="crud-button primary">
-                <i class="fas fa-plus"></i> Create New User
+            <a href="{{ path('app_admin') }}" class="crud-button secondary">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+            <a href="{{ path('app_user_crud_new', {'role': current_role}) }}" class="crud-button primary">
+                <i class="fas fa-plus"></i> Create New {{ current_role|capitalize }}
             </a>
         </div>
     </div>
@@ -52,8 +61,8 @@
     {% else %}
         <div class="crud-empty">
             <div class="crud-empty-icon">👥</div>
-            <p class="crud-empty-text">No users found</p>
-            <a href="{{ path('app_user_crud_new') }}" class="crud-button primary">Create New User</a>
+            <p class="crud-empty-text">No {{ current_role ? current_role ~ 's' : 'users' }} found</p>
+            <a href="{{ path('app_user_crud_new', {'role': current_role}) }}" class="crud-button primary">Create New {{ current_role|capitalize }}</a>
         </div>
     {% endif %}
 </div>

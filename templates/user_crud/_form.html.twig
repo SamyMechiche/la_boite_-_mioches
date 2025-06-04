@@ -1,0 +1,67 @@
+{{ form_start(form, {'attr': {'class': 'form'}}) }}
+    <div class="form-grid">
+        <div class="form-group">
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.email) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.plainPassword) }}
+            {{ form_widget(form.plainPassword, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.plainPassword) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.fname) }}
+            {{ form_widget(form.fname, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.fname) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.lname) }}
+            {{ form_widget(form.lname, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.lname) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.signing_date) }}
+            {{ form_widget(form.signing_date, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.signing_date) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.phone) }}
+            {{ form_widget(form.phone, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.phone) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.annual_income) }}
+            {{ form_widget(form.annual_income, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.annual_income) }}
+        </div>
+
+        <div class="form-group checkbox-group">
+            {{ form_widget(form.isVerified, {'attr': {'class': 'form-checkbox'}}) }}
+            {{ form_label(form.isVerified) }}
+            {{ form_errors(form.isVerified) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.Child) }}
+            {{ form_widget(form.Child, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.Child) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.GroupId) }}
+            {{ form_widget(form.GroupId, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.GroupId) }}
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <button class="crud-button primary">{{ button_label|default('Save') }}</button>
+    </div>
+{{ form_end(form) }}

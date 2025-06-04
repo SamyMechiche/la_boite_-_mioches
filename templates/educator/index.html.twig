@@ -1,0 +1,172 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Educator Dashboard{% endblock %}
+
+{% block body %}
+<div class="educator-dashboard">
+    <div class="bento-grid">
+        <div class="bento-card large welcome-card">
+            <h1>Welcome to the Educator Dashboard</h1>
+            <p>You are logged in as {{ app.user.fname }} {{ app.user.lname }}</p>
+            <div class="quick-actions">
+                <a href="{{ path('app_logout') }}" class="action-button">Logout</a>
+            </div>
+        </div>
+
+        <div class="bento-card medium">
+            <h2>My Groups</h2>
+            {% if groups|length > 0 %}
+                <ul class="group-list">
+                    {% for group in groups %}
+                        <li class="group-item">
+                            <div class="group-info">
+                                <div class="group-name">{{ group.name }}</div>
+                                <div class="group-age">Age Group: {{ group.ageGroup.value }}</div>
+                            </div>
+                            <div class="group-actions">
+                                <a href="{{ path('app_group_crud_show', {'id': group.id}) }}" class="view-link">View Details</a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="empty-state">
+                    <p>You are not assigned to any groups yet.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+.educator-dashboard {
+    padding: 2rem;
+}
+
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.bento-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bento-card.large {
+    grid-column: 1 / -1;
+}
+
+.bento-card.medium {
+    grid-column: span 2;
+}
+
+.welcome-card {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    color: white;
+}
+
+.welcome-card h1 {
+    margin: 0 0 1rem 0;
+    font-size: 2rem;
+}
+
+.welcome-card p {
+    margin: 0 0 2rem 0;
+    opacity: 0.9;
+}
+
+.quick-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.action-button {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.action-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.group-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.group-item:last-child {
+    border-bottom: none;
+}
+
+.group-info {
+    flex: 1;
+}
+
+.group-name {
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.25rem;
+}
+
+.group-age {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.group-actions {
+    margin-left: 1rem;
+}
+
+.view-link {
+    color: #4f46e5;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.view-link:hover {
+    text-decoration: underline;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: #6b7280;
+}
+
+@media (max-width: 768px) {
+    .bento-card.medium {
+        grid-column: 1 / -1;
+    }
+    
+    .group-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .group-actions {
+        margin-left: 0;
+    }
+}
+</style>
+{% endblock %} 

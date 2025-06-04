@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New User{% endblock %}
+
+{% block body %}
+<div class="crud-container">
+    <div class="crud-header">
+        <h1 class="crud-title">Create New User</h1>
+        <div class="crud-actions">
+            <a href="{{ path('app_user_crud_index') }}" class="crud-button secondary">Back to List</a>
+        </div>
+    </div>
+
+    <div class="crud-form">
+        {{ include('user_crud/_form.html.twig') }}
+    </div>
+</div>
+{% endblock %}

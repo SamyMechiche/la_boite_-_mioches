@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block body %}
+<div class="admin-dashboard">
+    <div class="bento-grid">
+        <div class="bento-card large welcome-card">
+            <h1>Welcome to the Admin Dashboard</h1>
+            <p>Manage your daycare center's operations and monitor key metrics.</p>
+            <div class="quick-actions">
+                <a href="{{ path('app_user_crud_index') }}" class="action-button">Manage Users</a>
+                <a href="#" class="action-button">View Reports</a>
+                <a href="#" class="action-button">Settings</a>
+                <a href="{{ path('app_logout') }}" class="action-button">Logout</a>
+            </div>
+        </div>
+
+        <div class="bento-card stats-card">
+            <div class="icon">👨‍🏫</div>
+            <div class="stats-number">{{ educators|length }}</div>
+            <div class="stats-label">Educators</div>
+        </div>
+
+        <div class="bento-card stats-card">
+            <div class="icon">👨‍👩‍👧‍👦</div>
+            <div class="stats-number">{{ parents|length }}</div>
+            <div class="stats-label">Parents</div>
+        </div>
+
+        <div class="bento-card stats-card">
+            <div class="icon">👶</div>
+            <div class="stats-number">{{ children|length }}</div>
+            <div class="stats-label">Children</div>
+        </div>
+
+        <div class="bento-card medium">
+            <h2>Educators</h2>
+            <ul class="user-list">
+                {% for educator in educators %}
+                    <li class="user-item">
+                        <div class="user-info">
+                            <div class="user-name">{{ educator.fname }} {{ educator.lname }}</div>
+                            <div class="user-email">{{ educator.email }}</div>
+                        </div>
+                        <div class="user-actions">
+                            <a href="{{ path('app_user_crud_edit', {'id': educator.id}) }}" class="edit-link">Edit</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="bento-card medium">
+            <h2>Parents</h2>
+            <ul class="user-list">
+                {% for parent in parents %}
+                    <li class="user-item">
+                        <div class="user-info">
+                            <div class="user-name">{{ parent.fname }} {{ parent.lname }}</div>
+                            <div class="user-email">{{ parent.email }}</div>
+                        </div>
+                        <div class="user-actions">
+                            <a href="{{ path('app_user_crud_edit', {'id': parent.id}) }}" class="edit-link">Edit</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="bento-card medium">
+            <h2>Children</h2>
+            <ul class="user-list">
+                {% for child in children %}
+                    <li class="user-item">
+                        <div class="user-info">
+                            <div class="user-name">{{ child.fname }} {{ child.lname }}</div>
+                            {#<div class="user-email">Age: {{ child.age }}</div>#}
+                        </div>
+                        <div class="user-actions">
+                            <a href="#" class="edit-link">Edit</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

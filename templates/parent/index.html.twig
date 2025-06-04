@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Parent Dashboard{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Welcome to the Parent Dashboard</h1>
+        <p>You are logged in as a parent.</p>
+    </div>
+
+                {% if app.user %}
+            <div class="logged-in-message">
+                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}" class="logout-link">Logout</a>
+            </div>
+        {% endif %}
+{% endblock %}

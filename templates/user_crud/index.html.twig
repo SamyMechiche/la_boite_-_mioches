@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Management{% endblock %}
+
+{% block body %}
+<div class="crud-container">
+    <div class="crud-header">
+        <h1 class="crud-title">User Management</h1>
+        <div class="crud-actions">
+            <a href="{{ path('app_user_crud_new') }}" class="crud-button primary">
+                <i class="fas fa-plus"></i> Create New User
+            </a>
+        </div>
+    </div>
+
+    {% if users|length > 0 %}
+        <table class="crud-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Roles</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Signing Date</th>
+                    <th>Phone</th>
+                    <th>Annual Income</th>
+                    <th>Verified</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.roles ? user.roles|map(r => r|replace({'ROLE_': ''})|lower|capitalize)|join(', ') : '' }}</td>
+                    <td>{{ user.fname }}</td>
+                    <td>{{ user.lname }}</td>
+                    <td>{{ user.signingDate ? user.signingDate|date('d-m-Y') : '' }}</td>
+                    <td>{{ user.phone }}</td>
+                    <td>{{ user.annualIncome }}K€</td>
+                    <td>{{ user.isVerified ? 'Yes' : 'No' }}</td>
+                    <td class="actions">
+                        <a href="{{ path('app_user_crud_show', {'id': user.id}) }}" class="crud-button secondary">Show</a>
+                        <a href="{{ path('app_user_crud_edit', {'id': user.id}) }}" class="crud-button primary">Edit</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="crud-empty">
+            <div class="crud-empty-icon">👥</div>
+            <p class="crud-empty-text">No users found</p>
+            <a href="{{ path('app_user_crud_new') }}" class="crud-button primary">Create New User</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

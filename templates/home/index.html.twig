@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}La Boîte à Mioches - Welcome{% endblock %}
+
+{% block body %}
+<header class="kindergarten-header">
+    <a href="{{ path('app_login') }}" class="login-button">Login</a>
+    <h1 class="kindergarten-title">La Boîte à Mioches</h1>
+    <p>A place of awakening and discovery for your children</p>
+</header>
+
+<div class="bento-grid">
+    <div class="bento-item welcome-card">
+        <h2>Welcome to our fairy world !</h2>
+        <p>La Boîte à Mioches is a warm and secure space where your children grow, learn and thrive in a nurturing environment.</p>
+    </div>
+
+    <div class="bento-item image-card">
+        <img src="{{ asset('img/playing_cubes.png') }}" alt="Educational Activities" class="bento-image">
+        <div class="card-content">
+            <h3>Educational Activities</h3>
+            <p>Fun and educational activities adapted to each age</p>
+        </div>
+    </div>
+
+    <div class="bento-item image-card">
+        <img src="{{ asset('img/sleeping.png') }}" alt="Secure Environment" class="bento-image">
+        <div class="card-content">
+            <h3>Secure Environment</h3>
+            <p>A fully secured space under surveillance</p>
+        </div>
+    </div>
+
+    <div class="bento-item image-card">
+        <img src="{{ asset('img/reading.png') }}" alt="Personal Development" class="bento-image">
+        <div class="card-content">
+            <h3>Personal Development</h3>
+            <p>Personalized support for each child</p>
+        </div>
+    </div>
+
+    <div class="bento-item cta-card">
+        <h2>Join our big family!</h2>
+        <p>Enroll your child and provide them with an ideal environment for their development.</p>
+        <a href="{{ app.user ? path('app_message') : path('app_login') }}" class="cta-button">Contact Us</a>
+    </div>
+
+    <div class="bento-item info-card">
+        <h3>Opening Hours</h3>
+        <p>Monday - Friday<br>7:30 AM - 6:30 PM</p>
+    </div>
+
+    <div class="bento-item info-card">
+        <h3>Children's Age</h3>
+        <p>2 years - 6 years</p>
+    </div>
+</div>
+{% endblock %}

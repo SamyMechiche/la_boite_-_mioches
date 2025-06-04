@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Child index{% endblock %}
+
+{% block body %}
+    <h1>Child index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Fname</th>
+                <th>Lname</th>
+                <th>Birth_date</th>
+                <th>Picture</th>
+                <th>Allergies</th>
+                <th>Signing_date</th>
+                <th>Relation_type</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for child in children %}
+            <tr>
+                <td>{{ child.id }}</td>
+                <td>{{ child.fname }}</td>
+                <td>{{ child.lname }}</td>
+                <td>{{ child.birthDate ? child.birthDate|date('Y-m-d') : '' }}</td>
+                <td>{{ child.picture }}</td>
+                <td>{{ child.allergies }}</td>
+                <td>{{ child.signingDate ? child.signingDate|date('Y-m-d') : '' }}</td>
+                <td>{{ child.relationType }}</td>
+                <td>
+                    <a href="{{ path('app_child_crud_show', {'id': child.id}) }}">show</a>
+                    <a href="{{ path('app_child_crud_edit', {'id': child.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_child_crud_new') }}">Create new</a>
+{% endblock %}

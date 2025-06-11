@@ -7,6 +7,7 @@ use App\Entity\Group;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -28,6 +29,15 @@ class UserForm extends AbstractType
             ->add('phone')
             ->add('annual_income')
             ->add('isVerified')
+            ->add('roles', ChoiceType::class, [
+                'choices' => [
+                    'Parent' => 'ROLE_PARENT',
+                    'Educator' => 'ROLE_EDUCATOR',
+                ],
+                'multiple' => true,
+                'expanded' => true,
+                'required' => true,
+            ])
             ->add('Child', EntityType::class, [
                 'class' => Child::class,
                 'choice_label' => 'fname',

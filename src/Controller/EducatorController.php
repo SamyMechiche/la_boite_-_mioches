@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Attendance;
 use App\Repository\AttendanceRepository;
+use App\Repository\ChildRepository;
+use App\Repository\ActivityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,19 +17,69 @@ use Symfony\Component\Routing\Annotation\Route;
 class EducatorController extends AbstractController
 {
     #[Route('/', name: 'app_educator')]
-    public function index(AttendanceRepository $attendanceRepository): Response
+    public function index(
+        AttendanceRepository $attendanceRepository, 
+        ChildRepository $childRepository,
+        ActivityRepository $activityRepository
+    ): Response
     {
         $user = $this->getUser();
         $groups = $user->getGroupId();
         
-        // Get all attendance records for the current month
+        // Get children for each group
+        $groupChildren = [];
+        $groupActivities = [];
+        $statistics = [
+            'total_children' => 0,
+            'total_activities' => 0,
+            'attendance_rate' => 0,
+            'upcoming_activities' => 0
+        ];
+        
+        foreach ($groups as $group) {
+            $children = $childRepository->findBy(['group' => $group]);
+            $groupChildren[$group->getId()] = $children;
+            $statistics['total_children'] += count($children);
+            
+            // Get activities for this group
+            $activities = $activityRepository->createQueryBuilder('a')
+                ->innerJoin('a.GroupId', 'g')
+                ->where('g.id = :groupId')
+                ->setParameter('groupId', $group->getId())
+                ->orderBy('a.beginning_hour', 'ASC')
+                ->getQuery()
+                ->getResult();
+            
+            $groupActivities[$group->getId()] = $activities;
+            $statistics['total_activities'] += count($activities);
+            
+            // Count upcoming activities (today and future)
+            $now = new \DateTime();
+            $upcomingActivities = array_filter($activities, function($activity) use ($now) {
+                return $activity->getBeginningHour() >= $now;
+            });
+            $statistics['upcoming_activities'] += count($upcomingActivities);
+        }
+        
+        // Calculate attendance rate for current month
         $currentMonth = new \DateTime();
         $attendanceRecords = $attendanceRepository->findByMonth($currentMonth);
+        
+        if (count($attendanceRecords) > 0) {
+            $totalPossibleAttendance = count($groupChildren) * count($attendanceRecords);
+            $actualAttendance = array_reduce($attendanceRecords, function($carry, $record) {
+                return $carry + ($record->getHalfDay() ? 0.5 : 1);
+            }, 0);
+            $statistics['attendance_rate'] = round(($actualAttendance / $totalPossibleAttendance) * 100, 1);
+        }
 
         return $this->render('educator/index.html.twig', [
             'groups' => $groups,
+            'groupChildren' => $groupChildren,
+            'groupActivities' => $groupActivities,
             'attendanceRecords' => $attendanceRecords,
             'currentMonth' => $currentMonth,
+            'statistics' => $statistics
         ]);
     }
 

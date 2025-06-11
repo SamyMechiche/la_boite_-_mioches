@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\UserRepository;
+use App\Repository\ChildRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -11,13 +12,13 @@ use Symfony\Component\Routing\Attribute\Route;
 final class AdminController extends AbstractController
 {
     #[Route('/', name: 'app_admin')]
-    public function index(UserRepository $userRepository): Response
+    public function index(UserRepository $userRepository, ChildRepository $childRepository): Response
     {
         $users = $userRepository->findAll();
         
         $educators = [];
         $parents = [];
-        $children = [];
+        $children = $childRepository->findAll();
 
         foreach ($users as $user) {
             $roles = $user->getRoles();
@@ -29,11 +30,6 @@ final class AdminController extends AbstractController
                 $educators[] = $user;
             } else {
                 $parents[] = $user;
-            }
-            
-            // Collect children from all users
-            foreach ($user->getChild() as $child) {
-                $children[] = $child;
             }
         }
 

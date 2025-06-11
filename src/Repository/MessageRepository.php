@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Message;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,4 +41,37 @@ class MessageRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findByUser(User $user): array
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.sender = :user OR m.reciever = :user')
+            ->setParameter('user', $user)
+            ->orderBy('m.sentAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findUnreadCount(User $user): int
+    {
+        return $this->createQueryBuilder('m')
+            ->select('COUNT(m.id)')
+            ->where('m.reciever = :user')
+            ->andWhere('m.isRead = :isRead')
+            ->setParameter('user', $user)
+            ->setParameter('isRead', false)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function findConversation(User $user1, User $user2): array
+    {
+        return $this->createQueryBuilder('m')
+            ->where('(m.sender = :user1 AND m.reciever = :user2) OR (m.sender = :user2 AND m.reciever = :user1)')
+            ->setParameter('user1', $user1)
+            ->setParameter('user2', $user2)
+            ->orderBy('m.sentAt', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

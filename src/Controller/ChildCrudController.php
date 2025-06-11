@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Child;
 use App\Form\ChildForm;
 use App\Repository\ChildRepository;
+use App\Service\GroupAssignmentService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +15,11 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/admin/child/crud')]
 final class ChildCrudController extends AbstractController
 {
+    public function __construct(
+        private readonly GroupAssignmentService $groupAssignmentService
+    ) {
+    }
+
     #[Route(name: 'app_child_crud_index', methods: ['GET'])]
     public function index(ChildRepository $childRepository): Response
     {
@@ -30,6 +36,7 @@ final class ChildCrudController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->groupAssignmentService->assignGroup($child);
             $entityManager->persist($child);
             $entityManager->flush();
 
@@ -57,6 +64,7 @@ final class ChildCrudController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->groupAssignmentService->assignGroup($child);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_child_crud_index', [], Response::HTTP_SEE_OTHER);

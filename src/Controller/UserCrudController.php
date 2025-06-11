@@ -39,6 +39,13 @@ final class UserCrudController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $user = new User();
+        $role = $request->query->get('role');
+        
+        // Set default role based on URL parameter
+        if ($role) {
+            $user->setRoles(['ROLE_' . strtoupper($role)]);
+        }
+        
         $form = $this->createForm(UserForm::class, $user);
         $form->handleRequest($request);
 
@@ -50,12 +57,13 @@ final class UserCrudController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_user_crud_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_user_crud_index', ['role' => $role], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user_crud/new.html.twig', [
             'user' => $user,
             'form' => $form,
+            'current_role' => $role
         ]);
     }
 

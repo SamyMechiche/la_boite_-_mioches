@@ -2,59 +2,193 @@
 
 {% block title %}Educator Dashboard{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
-<div class="educator-dashboard">
-    <div class="bento-grid">
-        <div class="bento-card large welcome-card">
-            <h1>Welcome to the Educator Dashboard</h1>
-            <p>You are logged in as {{ app.user.fname }} {{ app.user.lname }}</p>
-            <div class="quick-actions">
-                <a href="{{ path('app_logout') }}" class="action-button">Logout</a>
+<div class="space-y-6">
+    <!-- Welcome Section -->
+    <div class="bg-gradient-to-r from-primary-600 to-primary-800 rounded-lg shadow-lg overflow-hidden">
+        <div class="px-6 py-8">
+            <h1 class="text-3xl font-bold text-white mb-2">Welcome to your Dashboard</h1>
+            <p class="text-primary-100">Manage your groups and activities efficiently</p>
+        </div>
+    </div>
+
+    <!-- Statistics Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Total Children -->
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-primary-100 text-primary-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-sm font-medium text-gray-600">Total Children</h2>
+                    <p class="text-2xl font-semibold text-gray-900">{{ statistics.total_children }}</p>
+                </div>
             </div>
         </div>
 
-        <div class="bento-card medium">
-            <h2>My Groups</h2>
+        <!-- Total Activities -->
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-green-100 text-green-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-sm font-medium text-gray-600">Total Activities</h2>
+                    <p class="text-2xl font-semibold text-gray-900">{{ statistics.total_activities }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attendance Rate -->
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-purple-100 text-purple-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-sm font-medium text-gray-600">Attendance Rate</h2>
+                    <p class="text-2xl font-semibold text-gray-900">{{ statistics.attendance_rate }}%</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upcoming Activities -->
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-orange-100 text-orange-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-sm font-medium text-gray-600">Upcoming Activities</h2>
+                    <p class="text-2xl font-semibold text-gray-900">{{ statistics.upcoming_activities }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Groups and Activities Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Groups -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                <h2 class="text-lg font-medium text-gray-900">My Groups</h2>
+                <a href="{{ path('app_activity_new') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                    Add Activity
+                </a>
+            </div>
+            <div class="p-6">
             {% if groups|length > 0 %}
-                <ul class="group-list">
+                    <div class="space-y-6">
                     {% for group in groups %}
-                        <li class="group-item">
-                            <div class="group-info">
-                                <div class="group-name">{{ group.name }}</div>
-                                <div class="group-age">Age Group: {{ group.ageGroup.value }}</div>
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div>
+                                        <h3 class="text-lg font-medium text-gray-900">{{ group.name }}</h3>
+                                        <p class="text-sm text-gray-500">Age Group: {{ group.ageGroup.value }}</p>
+                                    </div>
+                                </div>
+
+                                {% if groupActivities[group.id] is defined and groupActivities[group.id]|length > 0 %}
+                                    <div class="mt-4">
+                                        <h4 class="text-sm font-medium text-gray-700 mb-3">Activities</h4>
+                                        <div class="space-y-3">
+                                            {% for activity in groupActivities[group.id] %}
+                                                <div class="bg-white rounded-lg p-3 shadow-sm">
+                                                    <div class="flex justify-between items-start">
+                                                        <div>
+                                                            <h5 class="font-medium text-gray-900">{{ activity.name }}</h5>
+                                                            <p class="text-sm text-gray-500">{{ activity.description }}</p>
+                                                        </div>
+                                                        <span class="text-sm text-gray-500">
+                                                            {{ activity.beginningHour|date('H:i') }} - {{ activity.endingHour|date('H:i') }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="text-center py-4 text-gray-500">
+                                        <p>No activities scheduled for this group.</p>
+                                    </div>
+                                {% endif %}
+
+                                {% if groupChildren[group.id] is defined and groupChildren[group.id]|length > 0 %}
+                                    <div class="mt-4">
+                                        <h4 class="text-sm font-medium text-gray-700 mb-3">Children</h4>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            {% for child in groupChildren[group.id] %}
+                                                <div class="bg-white rounded-lg p-2 text-sm text-gray-700">
+                                                    {{ child.fname }} {{ child.lname }}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="text-center py-4 text-gray-500">
+                                        <p>No children assigned to this group yet.</p>
+                                    </div>
+                                {% endif %}
                             </div>
-                            <div class="group-actions">
-                                <a href="{{ path('app_group_crud_show', {'id': group.id}) }}" class="view-link">View Details</a>
-                            </div>
-                        </li>
                     {% endfor %}
-                </ul>
+                    </div>
             {% else %}
-                <div class="empty-state">
+                    <div class="text-center py-8 text-gray-500">
                     <p>You are not assigned to any groups yet.</p>
                 </div>
             {% endif %}
+            </div>
         </div>
 
-        <div class="bento-card large calendar-card" data-controller="calendar">
-            <h2>Attendance Calendar</h2>
-            <div class="calendar-controls">
-                <button class="calendar-nav prev-month" data-action="click->calendar#prevMonth">&lt;</button>
-                <h3 class="current-month" data-calendar-target="month">May 2024</h3>
-                <button class="calendar-nav next-month" data-action="click->calendar#nextMonth">&gt;</button>
+        <!-- Calendar -->
+        <div class="bg-white rounded-lg shadow" data-controller="calendar">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-lg font-medium text-gray-900">Attendance Calendar</h2>
             </div>
-            <div class="calendar-grid">
-                <div class="calendar-header">
-                    <div>Sun</div>
-                    <div>Mon</div>
-                    <div>Tue</div>
-                    <div>Wed</div>
-                    <div>Thu</div>
-                    <div>Fri</div>
-                    <div>Sat</div>
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <button class="p-2 text-gray-600 hover:text-gray-900" data-action="click->calendar#prevMonth">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <h3 class="text-lg font-medium text-gray-900" data-calendar-target="month">May 2024</h3>
+                    <button class="p-2 text-gray-600 hover:text-gray-900" data-action="click->calendar#nextMonth">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
                 </div>
-                <div class="calendar-body" data-calendar-target="body">
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <div class="grid grid-cols-7 bg-gray-50 border-b border-gray-200">
+                        <div class="p-2 text-center text-sm font-medium text-gray-600">Sun</div>
+                        <div class="p-2 text-center text-sm font-medium text-gray-600">Mon</div>
+                        <div class="p-2 text-center text-sm font-medium text-gray-600">Tue</div>
+                        <div class="p-2 text-center text-sm font-medium text-gray-600">Wed</div>
+                        <div class="p-2 text-center text-sm font-medium text-gray-600">Thu</div>
+                        <div class="p-2 text-center text-sm font-medium text-gray-600">Fri</div>
+                        <div class="p-2 text-center text-sm font-medium text-gray-600">Sat</div>
+                    </div>
+                    <div class="grid grid-cols-7 gap-px bg-gray-200" data-calendar-target="body">
                     <!-- Calendar days will be dynamically inserted here -->
+                    </div>
                 </div>
             </div>
         </div>

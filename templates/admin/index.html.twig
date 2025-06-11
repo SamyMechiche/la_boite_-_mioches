@@ -3,90 +3,172 @@
 {% block title %}Admin Dashboard{% endblock %}
 
 {% block body %}
-<div class="admin-dashboard">
-    <div class="bento-grid">
-        <div class="bento-card large welcome-card">
-            <h1>Welcome to the Admin Dashboard</h1>
-            <p>Manage your daycare center's operations and monitor key metrics.</p>
-            <div class="quick-actions">
-                <a href="{{ path('app_user_crud_index', {'role': 'educator'}) }}" class="action-button">
-                    <i class="fas fa-chalkboard-teacher"></i> Manage Educators
-                </a>
-                <a href="{{ path('app_user_crud_index', {'role': 'parent'}) }}" class="action-button">
-                    <i class="fas fa-users"></i> Manage Parents
-                </a>
-                <a href="#" class="action-button">View Reports</a>
-                <a href="{{ path('app_logout') }}" class="action-button">Logout</a>
+<div class="space-y-6">
+    <!-- Welcome Section -->
+    <div class="bg-gradient-to-r from-primary-600 to-primary-800 rounded-lg shadow-lg overflow-hidden">
+        <div class="px-6 py-8">
+            <h1 class="text-3xl font-bold text-white mb-2">Welcome to the Admin Dashboard</h1>
+            <p class="text-primary-100">Manage your daycare center's operations and monitor key metrics.</p>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <a href="{{ path('app_user_crud_index', {'role': 'educator'}) }}" class="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-primary-100 text-primary-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-sm font-medium text-gray-600">Manage Educators</h2>
+                    <p class="text-2xl font-semibold text-gray-900">{{ educators|length }}</p>
+                </div>
+            </div>
+        </a>
+
+        <a href="{{ path('app_user_crud_index', {'role': 'parent'}) }}" class="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-green-100 text-green-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-sm font-medium text-gray-600">Manage Parents</h2>
+                    <p class="text-2xl font-semibold text-gray-900">{{ parents|length }}</p>
+                </div>
+            </div>
+        </a>
+
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-purple-100 text-purple-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-sm font-medium text-gray-600">Total Children</h2>
+                    <p class="text-2xl font-semibold text-gray-900">{{ children|length }}</p>
+                </div>
             </div>
         </div>
 
-        <div class="bento-card stats-card">
-            <div class="icon">👨‍🏫</div>
-            <div class="stats-number">{{ educators|length }}</div>
-            <div class="stats-label">Educators</div>
+        <a href="#" class="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-orange-100 text-orange-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-sm font-medium text-gray-600">View Reports</h2>
+                    <p class="text-2xl font-semibold text-gray-900">Analytics</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- User Lists Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Educators List -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-lg font-medium text-gray-900">Educators</h2>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4">
+                    {% for educator in educators %}
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div class="space-y-1">
+                                <h3 class="text-sm font-medium text-gray-900">{{ educator.fname }} {{ educator.lname }}</h3>
+                                <p class="text-sm text-gray-500">{{ educator.email }}</p>
+                                <div class="text-sm text-gray-500">
+                                    <span class="font-medium">Groups:</span>
+                                    {% if educator.groupId|length > 0 %}
+                                        {{ educator.groupId|map(g => g.name)|join(', ') }}
+                                    {% else %}
+                                        No groups assigned
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <a href="{{ path('app_user_crud_edit', {'id': educator.id}) }}" 
+                               class="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-primary-700 bg-primary-100 hover:bg-primary-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                                Edit
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4 text-gray-500">
+                            <p>No educators found.</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
 
-        <div class="bento-card stats-card">
-            <div class="icon">👨‍👩‍👧‍👦</div>
-            <div class="stats-number">{{ parents|length }}</div>
-            <div class="stats-label">Parents</div>
+        <!-- Parents List -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-lg font-medium text-gray-900">Parents</h2>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4">
+                    {% for parent in parents %}
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div class="space-y-1">
+                                <h3 class="text-sm font-medium text-gray-900">{{ parent.fname }} {{ parent.lname }}</h3>
+                                <p class="text-sm text-gray-500">{{ parent.email }}</p>
+                                <p class="text-sm text-gray-500">Annual Income: ${{ parent.annualIncome|number_format(0, '.', ',') }}K</p>
+                                <div class="text-sm text-gray-500">
+                                    <span class="font-medium">Children:</span>
+                                    {% if parent.child|length > 0 %}
+                                        {{ parent.child|map(c => c.fname ~ ' ' ~ c.lname)|join(', ') }}
+                                    {% else %}
+                                        No children registered
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <a href="{{ path('app_user_crud_edit', {'id': parent.id}) }}" 
+                               class="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-primary-700 bg-primary-100 hover:bg-primary-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                                Edit
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4 text-gray-500">
+                            <p>No parents found.</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
 
-        <div class="bento-card stats-card">
-            <div class="icon">👶</div>
-            <div class="stats-number">{{ children|length }}</div>
-            <div class="stats-label">Children</div>
-        </div>
-
-        <div class="bento-card medium">
-            <h2>Educators</h2>
-            <ul class="user-list">
-                {% for educator in educators %}
-                    <li class="user-item">
-                        <div class="user-info">
-                            <div class="user-name">{{ educator.fname }} {{ educator.lname }}</div>
-                            <div class="user-email">{{ educator.email }}</div>
+        <!-- Children List -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-lg font-medium text-gray-900">Children</h2>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4">
+                    {% for child in children %}
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div>
+                                <h3 class="text-sm font-medium text-gray-900">{{ child.fname }} {{ child.lname }}</h3>
+                                <p class="text-sm text-gray-500">Birth Date: {{ child.birthDate|date('d/m/Y') }}</p>
+                            </div>
+                            <a href="{{ path('app_child_crud_edit', {'id': child.id}) }}" 
+                               class="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-primary-700 bg-primary-100 hover:bg-primary-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                                Edit
+                            </a>
                         </div>
-                        <div class="user-actions">
-                            <a href="{{ path('app_user_crud_edit', {'id': educator.id}) }}" class="edit-link">Edit</a>
+                    {% else %}
+                        <div class="text-center py-4 text-gray-500">
+                            <p>No children found.</p>
                         </div>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-
-        <div class="bento-card medium">
-            <h2>Parents</h2>
-            <ul class="user-list">
-                {% for parent in parents %}
-                    <li class="user-item">
-                        <div class="user-info">
-                            <div class="user-name">{{ parent.fname }} {{ parent.lname }}</div>
-                            <div class="user-email">{{ parent.email }}</div>
-                        </div>
-                        <div class="user-actions">
-                            <a href="{{ path('app_user_crud_edit', {'id': parent.id}) }}" class="edit-link">Edit</a>
-                        </div>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-
-        <div class="bento-card medium">
-            <h2>Children</h2>
-            <ul class="user-list">
-                {% for child in children %}
-                    <li class="user-item">
-                        <div class="user-info">
-                            <div class="user-name">{{ child.fname }} {{ child.lname }}</div>
-                            {#<div class="user-email">Age: {{ child.age }}</div>#}
-                        </div>
-                        <div class="user-actions">
-                            <a href="#" class="edit-link">Edit</a>
-                        </div>
-                    </li>
-                {% endfor %}
-            </ul>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -34,6 +34,9 @@ class Child
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $signing_date = null;
 
+    #[ORM\ManyToOne(inversedBy: 'children')]
+    private ?Group $group = null;
+
     /**
      * @var Collection<int, User>
      */
@@ -136,6 +139,17 @@ class Child
     {
         $this->signing_date = $signing_date;
 
+        return $this;
+    }
+
+    public function getGroup(): ?Group
+    {
+        return $this->group;
+    }
+
+    public function setGroup(?Group $group): static
+    {
+        $this->group = $group;
         return $this;
     }
 

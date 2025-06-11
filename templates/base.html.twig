@@ -1,17 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html class="h-full bg-gray-50">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         {% block stylesheets %}
+            <script src="https://cdn.tailwindcss.com"></script>
+            <script>
+                tailwind.config = {
+                    theme: {
+                        extend: {
+                            colors: {
+                                primary: {
+                                    50: '#f0f9ff',
+                                    100: '#e0f2fe',
+                                    200: '#bae6fd',
+                                    300: '#7dd3fc',
+                                    400: '#38bdf8',
+                                    500: '#0ea5e9',
+                                    600: '#0284c7',
+                                    700: '#0369a1',
+                                    800: '#075985',
+                                    900: '#0c4a6e',
+                                }
+                            }
+                        }
+                    }
+                }
+            </script>
         {% endblock %}
 
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
+    <body class="h-full">
+        {% if app.session is not null %}
+            {% do app.session.start() %}
+        {% endif %}
+        
+        {% if app.user %}
+            <nav class="bg-white shadow-sm">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between h-16">
+                        <div class="flex">
+                            <div class="flex-shrink-0 flex items-center">
+                                <a href="{{ path('app_home') }}" class="text-xl font-bold text-primary-600">La Boîte à Mioches</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <a href="{{ path('app_message') }}" class="relative inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-primary-600 bg-primary-50 hover:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                                <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                Messages
+                                {% set unread_count = unread_messages_count() %}
+                                {% if unread_count > 0 %}
+                                    <span class="absolute -top-1 -right-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+                                        {{ unread_count }}
+                                    </span>
+                                {% endif %}
+                            </a>
+                            <span class="text-gray-700">{{ app.user.fname }} {{ app.user.lname }}</span>
+                            <a href="{{ path('app_logout') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        {% endif %}
+
+        <main class="py-10">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                {% block body %}{% endblock %}
+            </div>
+        </main>
     </body>
 </html>

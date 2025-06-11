@@ -3,14 +3,328 @@
 {% block title %}Parent Dashboard{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h1>Welcome to the Parent Dashboard</h1>
-        <p>You are logged in as a parent.</p>
+<div class="parent-dashboard">
+    <div class="bento-grid">
+        <!-- Welcome Card -->
+        <div class="bento-card large welcome-card">
+            <h1>Welcome to Your Parent Dashboard</h1>
+            <p>Stay connected with your child's daycare activities and communicate with educators.</p>
+            <div class="quick-actions">
+                <a href="{{ path('app_logout') }}" class="action-button">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+
+        <!-- Child Information Card -->
+        <div class="bento-card medium">
+            <h2>Child Information</h2>
+            <div class="child-profile">
+                <div class="child-avatar">
+                    <img src="{{ asset('images/default-child-avatar.png') }}" alt="Child Avatar">
+                </div>
+                <div class="child-details">
+                    <h3>John Doe</h3>
+                    <p class="child-age">Age: 4 years</p>
+                    <p class="child-group">Group: Blue Butterflies</p>
+                    <p class="child-educator">Educator: Sarah Smith</p>
+                </div>
+            </div>
+            <div class="child-health">
+                <h4>Health Information</h4>
+                <p><strong>Allergies:</strong> None</p>
+                <p><strong>Special Needs:</strong> None</p>
+            </div>
+        </div>
+
+        <!-- Upcoming Activities Card -->
+        <div class="bento-card medium">
+            <h2>Upcoming Activities</h2>
+            <div class="activities-list">
+                <div class="activity-item">
+                    <div class="activity-date">
+                        <span class="day">15</span>
+                        <span class="month">Jun</span>
+                    </div>
+                    <div class="activity-details">
+                        <h4>Art & Craft Session</h4>
+                        <p>Morning session (9:00 AM - 11:00 AM)</p>
+                        <p class="activity-location">Room: Creative Corner</p>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-date">
+                        <span class="day">16</span>
+                        <span class="month">Jun</span>
+                    </div>
+                    <div class="activity-details">
+                        <h4>Outdoor Play</h4>
+                        <p>Afternoon session (2:00 PM - 4:00 PM)</p>
+                        <p class="activity-location">Location: Playground</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Message Educators Card -->
+        <div class="bento-card medium">
+            <h2>Message Educators</h2>
+            <div class="message-form">
+                <div class="form-group">
+                    <label for="message-subject">Subject</label>
+                    <input type="text" id="message-subject" class="form-control" placeholder="Enter message subject">
+                </div>
+                <div class="form-group">
+                    <label for="message-content">Message</label>
+                    <textarea id="message-content" class="form-control" rows="4" placeholder="Type your message here..."></textarea>
+                </div>
+                <button class="send-message-btn">
+                    <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+            </div>
     </div>
 
-                {% if app.user %}
-            <div class="logged-in-message">
-                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}" class="logout-link">Logout</a>
+        <!-- Recent Messages Card -->
+        <div class="bento-card medium">
+            <h2>Recent Messages</h2>
+            <div class="messages-list">
+                <div class="message-item">
+                    <div class="message-header">
+                        <span class="message-sender">From: Sarah Smith</span>
+                        <span class="message-date">June 14, 2024</span>
+                    </div>
+                    <h4>Weekly Progress Report</h4>
+                    <p>John had a great week! He showed excellent progress in...</p>
+                </div>
+                <div class="message-item">
+                    <div class="message-header">
+                        <span class="message-sender">From: You</span>
+                        <span class="message-date">June 13, 2024</span>
+                    </div>
+                    <h4>Question about upcoming field trip</h4>
+                    <p>Hi Sarah, I was wondering about the details of...</p>
+                </div>
             </div>
-        {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+.parent-dashboard {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.bento-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.bento-card:hover {
+    transform: translateY(-5px);
+}
+
+.bento-card.large {
+    grid-column: span 3;
+}
+
+.bento-card.medium {
+    grid-column: span 1;
+}
+
+.bento-card h2 {
+    color: #1a365d;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.5rem;
+}
+
+/* Child Profile Styles */
+.child-profile {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.child-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.child-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.child-details h3 {
+    color: #2d3748;
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+}
+
+.child-details p {
+    color: #4a5568;
+    margin: 0.25rem 0;
+}
+
+/* Activities Styles */
+.activities-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.activity-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f7fafc;
+    border-radius: 0.5rem;
+}
+
+.activity-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #4299e1;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    min-width: 60px;
+}
+
+.activity-date .day {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.activity-date .month {
+    font-size: 0.875rem;
+}
+
+.activity-details h4 {
+    margin: 0 0 0.5rem 0;
+    color: #2d3748;
+}
+
+.activity-details p {
+    margin: 0.25rem 0;
+    color: #4a5568;
+}
+
+/* Message Form Styles */
+.message-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-control {
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+}
+
+.send-message-btn {
+    background: #4299e1;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+.send-message-btn:hover {
+    background: #3182ce;
+}
+
+/* Messages List Styles */
+.messages-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.message-item {
+    padding: 1rem;
+    background: #f7fafc;
+    border-radius: 0.5rem;
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    color: #4a5568;
+}
+
+.message-item h4 {
+    margin: 0 0 0.5rem 0;
+    color: #2d3748;
+}
+
+.message-item p {
+    margin: 0;
+    color: #4a5568;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .bento-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .bento-card.large {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .bento-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .bento-card.large,
+    .bento-card.medium {
+        grid-column: span 1;
+    }
+    
+    .child-profile {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
+</style>
 {% endblock %}

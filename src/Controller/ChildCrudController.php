@@ -32,6 +32,7 @@ final class ChildCrudController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $child = new Child();
+        $child->setPicture('images/(1).jpg'); // Set default avatar
         $form = $this->createForm(ChildForm::class, $child);
         $form->handleRequest($request);
 

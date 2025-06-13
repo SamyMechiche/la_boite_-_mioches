@@ -14,161 +14,219 @@
 
     <!-- Quick Actions -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <a href="{{ path('app_user_crud_index', {'role': 'educator'}) }}" class="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+        <a href="{{ path('app_user_crud_index', {'role': 'educator'}) }}" class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow p-6 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1">
             <div class="flex items-center">
-                <div class="p-3 rounded-full bg-primary-100 text-primary-600">
+                <div class="p-3 rounded-full bg-white text-blue-600">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h2 class="text-sm font-medium text-gray-600">Manage Educators</h2>
-                    <p class="text-2xl font-semibold text-gray-900">{{ educators|length }}</p>
+                    <h2 class="text-sm font-medium text-white">Manage Educators</h2>
+                    <p class="text-2xl font-semibold text-white">{{ statistics.total_educators }}</p>
                 </div>
             </div>
         </a>
 
-        <a href="{{ path('app_user_crud_index', {'role': 'parent'}) }}" class="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+        <a href="{{ path('app_user_crud_index', {'role': 'parent'}) }}" class="bg-gradient-to-r from-green-500 to-green-600 rounded-lg shadow p-6 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1">
             <div class="flex items-center">
-                <div class="p-3 rounded-full bg-green-100 text-green-600">
+                <div class="p-3 rounded-full bg-white text-green-600">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h2 class="text-sm font-medium text-gray-600">Manage Parents</h2>
-                    <p class="text-2xl font-semibold text-gray-900">{{ parents|length }}</p>
+                    <h2 class="text-sm font-medium text-white">Manage Parents</h2>
+                    <p class="text-2xl font-semibold text-white">{{ statistics.total_parents }}</p>
+                </div>
+            </div>
+        </a>
+
+        <a href="{{ path('app_child_crud_index') }}" class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg shadow p-6 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-white text-purple-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-sm font-medium text-white">Total Children</h2>
+                    <p class="text-2xl font-semibold text-white">{{ statistics.total_children }}</p>
                 </div>
             </div>
         </a>
 
         <div class="bg-white rounded-lg shadow p-6">
             <div class="flex items-center">
-                <div class="p-3 rounded-full bg-purple-100 text-purple-600">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                </div>
-                <div class="ml-4">
-                    <h2 class="text-sm font-medium text-gray-600">Total Children</h2>
-                    <p class="text-2xl font-semibold text-gray-900">{{ children|length }}</p>
-                </div>
-            </div>
-        </div>
-
-        <a href="#" class="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow">
-            <div class="flex items-center">
                 <div class="p-3 rounded-full bg-orange-100 text-orange-600">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h2 class="text-sm font-medium text-gray-600">View Reports</h2>
-                    <p class="text-2xl font-semibold text-gray-900">Analytics</p>
+                    <h2 class="text-sm font-medium text-gray-600">Total Activities</h2>
+                    <p class="text-2xl font-semibold text-gray-900">{{ statistics.total_activities }}</p>
                 </div>
             </div>
-        </a>
+        </div>
     </div>
 
-    <!-- User Lists Section -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Educators List -->
-        <div class="bg-white rounded-lg shadow">
-            <div class="px-6 py-4 border-b border-gray-200">
-                <h2 class="text-lg font-medium text-gray-900">Educators</h2>
-            </div>
-            <div class="p-6">
-                <div class="space-y-4">
-                    {% for educator in educators %}
-                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                            <div class="space-y-1">
-                                <h3 class="text-sm font-medium text-gray-900">{{ educator.fname }} {{ educator.lname }}</h3>
-                                <p class="text-sm text-gray-500">{{ educator.email }}</p>
-                                <div class="text-sm text-gray-500">
-                                    <span class="font-medium">Groups:</span>
-                                    {% if educator.groupId|length > 0 %}
-                                        {{ educator.groupId|map(g => g.name)|join(', ') }}
-                                    {% else %}
-                                        No groups assigned
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <a href="{{ path('app_user_crud_edit', {'id': educator.id}) }}" 
-                               class="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-primary-700 bg-primary-100 hover:bg-primary-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                                Edit
-                            </a>
-                        </div>
-                    {% else %}
-                        <div class="text-center py-4 text-gray-500">
-                            <p>No educators found.</p>
-                        </div>
-                    {% endfor %}
+    <!-- Additional Statistics -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-blue-100 text-blue-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-sm font-medium text-gray-600">Total Groups</h2>
+                    <p class="text-2xl font-semibold text-gray-900">{{ statistics.total_groups }}</p>
                 </div>
             </div>
         </div>
 
-        <!-- Parents List -->
-        <div class="bg-white rounded-lg shadow">
-            <div class="px-6 py-4 border-b border-gray-200">
-                <h2 class="text-lg font-medium text-gray-900">Parents</h2>
-            </div>
-            <div class="p-6">
-                <div class="space-y-4">
-                    {% for parent in parents %}
-                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                            <div class="space-y-1">
-                                <h3 class="text-sm font-medium text-gray-900">{{ parent.fname }} {{ parent.lname }}</h3>
-                                <p class="text-sm text-gray-500">{{ parent.email }}</p>
-                                <p class="text-sm text-gray-500">Annual Income: ${{ parent.annualIncome|number_format(0, '.', ',') }}K</p>
-                                <div class="text-sm text-gray-500">
-                                    <span class="font-medium">Children:</span>
-                                    {% if parent.child|length > 0 %}
-                                        {{ parent.child|map(c => c.fname ~ ' ' ~ c.lname)|join(', ') }}
-                                    {% else %}
-                                        No children registered
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <a href="{{ path('app_user_crud_edit', {'id': parent.id}) }}" 
-                               class="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-primary-700 bg-primary-100 hover:bg-primary-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                                Edit
-                            </a>
-                        </div>
-                    {% else %}
-                        <div class="text-center py-4 text-gray-500">
-                            <p>No parents found.</p>
-                        </div>
-                    {% endfor %}
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-yellow-100 text-yellow-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-sm font-medium text-gray-600">Attendance Rate</h2>
+                    <p class="text-2xl font-semibold text-gray-900">{{ statistics.attendance_rate }}%</p>
                 </div>
             </div>
         </div>
 
-        <!-- Children List -->
-        <div class="bg-white rounded-lg shadow">
-            <div class="px-6 py-4 border-b border-gray-200">
-                <h2 class="text-lg font-medium text-gray-900">Children</h2>
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-red-100 text-red-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-sm font-medium text-gray-600">Children with Allergies</h2>
+                    <p class="text-2xl font-semibold text-gray-900">{{ statistics.children_with_allergies }}</p>
+                </div>
             </div>
-            <div class="p-6">
-                <div class="space-y-4">
-                    {% for child in children %}
-                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                            <div>
-                                <h3 class="text-sm font-medium text-gray-900">{{ child.fname }} {{ child.lname }}</h3>
-                                <p class="text-sm text-gray-500">Birth Date: {{ child.birthDate|date('d/m/Y') }}</p>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-indigo-100 text-indigo-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-sm font-medium text-gray-600">Unread Messages</h2>
+                    <p class="text-2xl font-semibold text-gray-900">{{ statistics.unread_messages }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Activities Section -->
+    <div class="bg-white rounded-lg shadow">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h2 class="text-lg font-medium text-gray-900">All Activities</h2>
+        </div>
+        <div class="p-6">
+            {% if activities|length > 0 %}
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Groups</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            {% for activity in activities %}
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">{{ activity.name }}</div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-gray-500">{{ activity.description }}</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-500">
+                                            {{ activity.beginningHour|date('H:i') }} - {{ activity.endingHour|date('H:i') }}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-gray-500">
+                                            {% for group in activity.GroupId %}
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mr-2">
+                                                    {{ group.name }}
+                                                </span>
+                                            {% endfor %}
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-4 text-gray-500">
+                    <p>No activities have been created yet.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Groups Overview -->
+    <div class="bg-white rounded-lg shadow">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h2 class="text-lg font-medium text-gray-900">Groups Overview</h2>
+        </div>
+        <div class="p-6">
+            {% if groups|length > 0 %}
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {% for group in groups %}
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <h3 class="text-lg font-medium text-gray-900">{{ group.name }}</h3>
+                                    <p class="text-sm text-gray-500">Age Group: {{ group.ageGroup.value }}</p>
+                                </div>
                             </div>
-                            <a href="{{ path('app_child_crud_edit', {'id': child.id}) }}" 
-                               class="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-primary-700 bg-primary-100 hover:bg-primary-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                                Edit
-                            </a>
-                        </div>
-                    {% else %}
-                        <div class="text-center py-4 text-gray-500">
-                            <p>No children found.</p>
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Children:</span>
+                                    <span class="font-medium text-gray-900">
+                                        {{ children|filter(child => child.group == group)|length }}
+                                    </span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Activities:</span>
+                                    <span class="font-medium text-gray-900">
+                                        {{ group.activities|length }}
+                                    </span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Educators:</span>
+                                    <span class="font-medium text-gray-900">
+                                        {{ group.users|filter(user => 'ROLE_EDUCATOR' in user.roles)|length }}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     {% endfor %}
                 </div>
-            </div>
+            {% else %}
+                <div class="text-center py-4 text-gray-500">
+                    <p>No groups have been created yet.</p>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>

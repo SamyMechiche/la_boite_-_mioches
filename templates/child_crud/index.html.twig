@@ -1,47 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Child index{% endblock %}
+{% block title %}Child Management{% endblock %}
 
 {% block body %}
-    <h1>Child index</h1>
+<div class="crud-container">
+    <div class="crud-header">
+        <h1 class="crud-title">Child Management</h1>
+        <div class="crud-actions">
+            <a href="{{ path('app_admin') }}" class="crud-button secondary">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+            <a href="{{ path('app_child_crud_new') }}" class="crud-button primary">
+                <i class="fas fa-plus"></i> Create New Child
+            </a>
+        </div>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Fname</th>
-                <th>Lname</th>
-                <th>Birth_date</th>
-                <th>Picture</th>
-                <th>Allergies</th>
-                <th>Signing_date</th>
-                <th>Relation_type</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for child in children %}
-            <tr>
-                <td>{{ child.id }}</td>
-                <td>{{ child.fname }}</td>
-                <td>{{ child.lname }}</td>
-                <td>{{ child.birthDate ? child.birthDate|date('Y-m-d') : '' }}</td>
-                <td>{{ child.picture }}</td>
-                <td>{{ child.allergies }}</td>
-                <td>{{ child.signingDate ? child.signingDate|date('Y-m-d') : '' }}</td>
-                <td>{{ child.relationType }}</td>
-                <td>
-                    <a href="{{ path('app_child_crud_show', {'id': child.id}) }}">show</a>
-                    <a href="{{ path('app_child_crud_edit', {'id': child.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_child_crud_new') }}">Create new</a>
+    {% if children|length > 0 %}
+        <table class="crud-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Birth Date</th>
+                    <th>Picture</th>
+                    <th>Allergies</th>
+                    <th>Signing Date</th>
+                    <th>Relation Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for child in children %}
+                <tr>
+                    <td>{{ child.id }}</td>
+                    <td>{{ child.fname }}</td>
+                    <td>{{ child.lname }}</td>
+                    <td>{{ child.birthDate ? child.birthDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ child.picture }}</td>
+                    <td>{{ child.allergies }}</td>
+                    <td>{{ child.signingDate ? child.signingDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ child.relationType }}</td>
+                    <td class="actions">
+                        <a href="{{ path('app_child_crud_show', {'id': child.id}) }}" class="crud-button secondary">Show</a>
+                        <a href="{{ path('app_child_crud_edit', {'id': child.id}) }}" class="crud-button primary">Edit</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="crud-empty">
+            <div class="crud-empty-icon">👶</div>
+            <p class="crud-empty-text">No children found</p>
+            <a href="{{ path('app_child_crud_new') }}" class="crud-button primary">Create New Child</a>
+        </div>
+    {% endif %}
+</div>
 {% endblock %}

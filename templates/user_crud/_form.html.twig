@@ -55,9 +55,16 @@
         </div>
 
         <div class="form-group">
-            {{ form_label(form.GroupId) }}
-            {{ form_widget(form.GroupId, {'attr': {'class': 'form-control'}}) }}
+            {{ form_label(form.GroupId, 'Assigned Groups (Hold Ctrl/Cmd to select multiple)') }}
+            {{ form_widget(form.GroupId, {
+                'attr': {
+                    'class': 'form-control',
+                    'size': '5',
+                    'data-placeholder': 'Select one or more groups'
+                }
+            }) }}
             {{ form_errors(form.GroupId) }}
+            <small class="form-text text-muted">Hold Ctrl (Windows) or Cmd (Mac) to select multiple groups</small>
         </div>
     </div>
 

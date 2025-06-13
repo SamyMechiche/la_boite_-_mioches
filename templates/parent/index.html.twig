@@ -16,96 +16,123 @@
             </div>
         </div>
 
-        <!-- Child Information Card -->
-        <div class="bento-card medium">
-            <h2>Child Information</h2>
-            <div class="child-profile">
-                <div class="child-avatar">
-                    <img src="{{ asset('images/default-child-avatar.png') }}" alt="Child Avatar">
+        {% if children|length > 0 %}
+            {% for child in children %}
+                <!-- Child Information Card -->
+                <div class="bento-card medium">
+                    <h2>Child Information</h2>
+                    <div class="child-profile">
+                        <div class="child-avatar">
+                            <img src="{{ child.picture ? asset(child.picture) : asset('images/default-child-avatar.png') }}" alt="{{ child.fname }}'s Avatar">
+                        </div>
+                        <div class="child-details">
+                            <h3>{{ child.fname }} {{ child.lname }}</h3>
+                            <p class="child-age">Age: {{ child.birthDate|date('Y-m-d')|age }} years</p>
+                            {% if child.group %}
+                                <p class="child-group">Group: {{ child.group.name }}</p>
+                                {% for user in child.group.users %}
+                                    {% if 'ROLE_EDUCATOR' in user.roles %}
+                                        <p class="child-educator">Educator: {{ user.fname }} {{ user.lname }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="child-health">
+                        <h4>Health Information</h4>
+                        <p><strong>Allergies:</strong> {{ child.allergies ?: 'None' }}</p>
+                        <p><strong>Attendance Rate:</strong> {{ attendanceStats[child.id].attendance_rate }}%</p>
+                    </div>
                 </div>
-                <div class="child-details">
-                    <h3>John Doe</h3>
-                    <p class="child-age">Age: 4 years</p>
-                    <p class="child-group">Group: Blue Butterflies</p>
-                    <p class="child-educator">Educator: Sarah Smith</p>
-                </div>
-            </div>
-            <div class="child-health">
-                <h4>Health Information</h4>
-                <p><strong>Allergies:</strong> None</p>
-                <p><strong>Special Needs:</strong> None</p>
-            </div>
-        </div>
+            {% endfor %}
 
-        <!-- Upcoming Activities Card -->
-        <div class="bento-card medium">
-            <h2>Upcoming Activities</h2>
-            <div class="activities-list">
-                <div class="activity-item">
-                    <div class="activity-date">
-                        <span class="day">15</span>
-                        <span class="month">Jun</span>
+            <!-- Upcoming Activities Card -->
+            <div class="bento-card medium">
+                <h2>Upcoming Activities</h2>
+                {% if upcomingActivities|length > 0 %}
+                    <div class="activities-list">
+                        {% for activity in upcomingActivities %}
+                            <div class="activity-item">
+                                <div class="activity-date">
+                                    <span class="day">{{ activity.beginningHour|date('d') }}</span>
+                                    <span class="month">{{ activity.beginningHour|date('M') }}</span>
+                                </div>
+                                <div class="activity-details">
+                                    <h4>{{ activity.name }}</h4>
+                                    <p>{{ activity.description }}</p>
+                                    <p><small>{{ activity.beginningHour|date('H:i') }} - {{ activity.endingHour|date('H:i') }}</small></p>
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
-                    <div class="activity-details">
-                        <h4>Art & Craft Session</h4>
-                        <p>Morning session (9:00 AM - 11:00 AM)</p>
-                        <p class="activity-location">Room: Creative Corner</p>
-                    </div>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-date">
-                        <span class="day">16</span>
-                        <span class="month">Jun</span>
-                    </div>
-                    <div class="activity-details">
-                        <h4>Outdoor Play</h4>
-                        <p>Afternoon session (2:00 PM - 4:00 PM)</p>
-                        <p class="activity-location">Location: Playground</p>
-                    </div>
-                </div>
+                {% else %}
+                    <p class="text-center text-gray-500">No upcoming activities scheduled.</p>
+                {% endif %}
             </div>
-        </div>
 
-        <!-- Message Educators Card -->
-        <div class="bento-card medium">
-            <h2>Message Educators</h2>
-            <div class="message-form">
-                <div class="form-group">
-                    <label for="message-subject">Subject</label>
-                    <input type="text" id="message-subject" class="form-control" placeholder="Enter message subject">
-                </div>
-                <div class="form-group">
-                    <label for="message-content">Message</label>
-                    <textarea id="message-content" class="form-control" rows="4" placeholder="Type your message here..."></textarea>
-                </div>
-                <button class="send-message-btn">
-                    <i class="fas fa-paper-plane"></i> Send Message
-                </button>
+            <!-- Attendance Form Card -->
+            <div class="bento-card medium">
+                <h2>Add Attendance Record</h2>
+                {{ form_start(form, {'attr': {'class': 'attendance-form'}}) }}
+                    <div class="form-grid">
+                        <div class="form-group">
+                            {{ form_label(form.child) }}
+                            {{ form_widget(form.child, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.child) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.date) }}
+                            {{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.date) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.half_day) }}
+                            {{ form_widget(form.half_day, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.half_day) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.status) }}
+                            {{ form_widget(form.status, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.status) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.comment) }}
+                        {{ form_widget(form.comment, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.comment) }}
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Submit Attendance</button>
+                    </div>
+                {{ form_end(form) }}
             </div>
-    </div>
 
-        <!-- Recent Messages Card -->
-        <div class="bento-card medium">
-            <h2>Recent Messages</h2>
-            <div class="messages-list">
-                <div class="message-item">
-                    <div class="message-header">
-                        <span class="message-sender">From: Sarah Smith</span>
-                        <span class="message-date">June 14, 2024</span>
+            <!-- Recent Messages Card -->
+            <div class="bento-card medium">
+                <h2>Recent Messages</h2>
+                {% if recentMessages|length > 0 %}
+                    <div class="messages-list">
+                        {% for message in recentMessages %}
+                            <div class="message-item">
+                                <div class="message-header">
+                                    <span class="sender">{{ message.sender.fname }} {{ message.sender.lname }}</span>
+                                    <span class="date">{{ message.sentAt|date('M d, Y H:i') }}</span>
+                                </div>
+                                <h4>{{ message.subject }}</h4>
+                                <p>{{ message.content|slice(0, 100) }}{% if message.content|length > 100 %}...{% endif %}</p>
+                            </div>
+                        {% endfor %}
                     </div>
-                    <h4>Weekly Progress Report</h4>
-                    <p>John had a great week! He showed excellent progress in...</p>
-                </div>
-                <div class="message-item">
-                    <div class="message-header">
-                        <span class="message-sender">From: You</span>
-                        <span class="message-date">June 13, 2024</span>
-                    </div>
-                    <h4>Question about upcoming field trip</h4>
-                    <p>Hi Sarah, I was wondering about the details of...</p>
-                </div>
+                {% else %}
+                    <p class="text-center text-gray-500">No recent messages.</p>
+                {% endif %}
             </div>
-        </div>
+        {% else %}
+            <div class="bento-card large">
+                <h2>No Children Registered</h2>
+                <p>You don't have any children registered in the system yet. Please contact the administrator to register your child.</p>
+            </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
@@ -243,24 +270,23 @@
 }
 
 .form-control {
-    padding: 0.75rem;
+    padding: 0.5rem;
     border: 1px solid #e2e8f0;
-    border-radius: 0.5rem;
-    font-size: 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
 }
 
 .send-message-btn {
     background: #4299e1;
     color: white;
-    border: none;
     padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
+    border-radius: 0.375rem;
+    border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 0.5rem;
-    font-size: 1rem;
+    font-weight: 500;
     transition: background-color 0.2s;
 }
 
@@ -299,32 +325,22 @@
     color: #4a5568;
 }
 
-/* Responsive Design */
-@media (max-width: 1200px) {
-    .bento-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .bento-card.large {
-        grid-column: span 2;
-    }
+/* Action Button Styles */
+.action-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #e53e3e;
+    color: white;
+    border-radius: 0.375rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s;
 }
 
-@media (max-width: 768px) {
-    .bento-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .bento-card.large,
-    .bento-card.medium {
-        grid-column: span 1;
-    }
-    
-    .child-profile {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
+.action-button:hover {
+    background: #c53030;
 }
 </style>
 {% endblock %}

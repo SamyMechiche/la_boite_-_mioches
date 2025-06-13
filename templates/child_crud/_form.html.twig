@@ -1,4 +1,67 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'class': 'form'}}) }}
+    <div class="form-grid">
+        <div class="form-group">
+            {{ form_label(form.fname) }}
+            {{ form_widget(form.fname, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.fname) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.lname) }}
+            {{ form_widget(form.lname, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.lname) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.birth_date) }}
+            {{ form_widget(form.birth_date, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.birth_date) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.picture) }}
+            {{ form_widget(form.picture, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.picture) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.allergies) }}
+            {{ form_widget(form.allergies, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.allergies) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.signing_date) }}
+            {{ form_widget(form.signing_date, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.signing_date) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.relation_type) }}
+            {{ form_widget(form.relation_type, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.relation_type) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.parent) }}
+            {{ form_widget(form.parent, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.parent) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.users) }}
+            {{ form_widget(form.users, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.users) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.ExternalContact) }}
+            {{ form_widget(form.ExternalContact, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.ExternalContact) }}
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <button class="crud-button primary">{{ button_label|default('Save') }}</button>
+    </div>
 {{ form_end(form) }}

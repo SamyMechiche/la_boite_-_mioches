@@ -37,6 +37,10 @@ class Child
     #[ORM\ManyToOne(inversedBy: 'children')]
     private ?Group $group = null;
 
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "parent_id", referencedColumnName: "id")]
+    private ?User $parent = null;
+
     /**
      * @var Collection<int, User>
      */
@@ -150,6 +154,17 @@ class Child
     public function setGroup(?Group $group): static
     {
         $this->group = $group;
+        return $this;
+    }
+
+    public function getParent(): ?User
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?User $parent): static
+    {
+        $this->parent = $parent;
         return $this;
     }
 

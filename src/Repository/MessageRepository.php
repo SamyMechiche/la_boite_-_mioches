@@ -9,6 +9,11 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<Message>
+ *
+ * @method Message|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Message|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Message[]    findAll()
+ * @method Message[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class MessageRepository extends ServiceEntityRepository
 {
@@ -48,6 +53,17 @@ class MessageRepository extends ServiceEntityRepository
             ->where('m.sender = :user OR m.reciever = :user')
             ->setParameter('user', $user)
             ->orderBy('m.sentAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findRecentMessages(User $user, int $limit = 5): array
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.reciever = :user OR m.sender = :user')
+            ->setParameter('user', $user)
+            ->orderBy('m.sentAt', 'DESC')
+            ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }

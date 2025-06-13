@@ -106,7 +106,7 @@ td a {
 }
 
 body {
-    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-family: 'Quicksand', 'Segoe UI', sans-serif;
     color: var(--text-color);
     line-height: 1.6;
 }
